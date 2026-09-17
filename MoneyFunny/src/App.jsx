@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import viteLogo from './assets/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { Routes, Route, Link} from 'react-router-dom';
 import Signin, { Signup } from "./subpages/signin.jsx"
 import Accounts from "./subpages/accounts"
 import Budgets from "./subpages/budgets"
 import Transactions from "./subpages/transactions"
+import axios from 'axios';
 
 function Home() {
   return (
@@ -18,6 +18,17 @@ function Home() {
 }
 
 function App() {
+  const [user, setUser] = useState(null)
+  const [active, setActive] = useState(false)
+  useEffect(() => {
+    const fetchUser = async() => {
+        const res = await axios.get("http://localhost:8080/api/auth/me", {withCredentials:true})
+        setUser(res.data)
+    }
+    fetchUser()
+
+    console.log(user)
+  }, [])
 
   return (
     <div className="min-h-dvh">
@@ -32,10 +43,24 @@ function App() {
 
           </div>
       </div>
-      <div className="text-lg flex flex-row  border-2 rounded-3xl text-(--text-primary)">
-        <Link to="/signup" className="bg-(--accent) p-2 border-1-transparent rounded-3xl">Sign-Up</Link>
-        <Link to="/signin" className="p-2 ">Sign-in</Link>
-      </div>
+      {user ? (
+        <div className="text-2xl flex flex-row p-2.5  hover:bg-(--bg-secondary) relative" onClick={() => setActive((prev) => !prev)}>
+          <h2>{user.username}</h2>
+          {active ? (
+            <div className="w-[40%] md:w-fit h-fit absolute p-2 mx-auto bottom-0 bg-(--secondary)">
+              <button className="bg-(--error) border rounded w-35">Log Out</button>
+            </div>
+
+          ):(
+            <></>
+          )}
+        </div>
+        ):( 
+        <div className="text-lg flex flex-row  border-2 rounded-3xl text-(--text-primary)">
+          <Link to="/signup" className="bg-(--accent) p-2 border-1-transparent rounded-3xl">Sign-Up</Link>
+          <Link to="/signin" className="p-2 ">Sign-in</Link>
+        </div>
+      )}
     </div>
     </section>
     <section id="display-area">
