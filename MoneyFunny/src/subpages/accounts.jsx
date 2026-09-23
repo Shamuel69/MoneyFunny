@@ -2,9 +2,28 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { __unstable__loadDesignSystem } from 'tailwindcss';
 
+export function AccountDetails() {
+  const [account, setAccount] = useState([])
+}
+
 export default function Accounts() {
   const [accounts, setAccounts] = useState(null)
   const [addnew, setAddNew] = useState(false)
+  const [name, setName] = useState(null)
+
+  useEffect(() => {
+    const handleNames = async() => {
+      try{
+        const res = await axios.get("http://localhost:8080/api/auth/username", {withCredentials: true})
+        console.log(res.data)
+        setName(res.data)
+      }catch{
+        console.error("No user signed in")
+      }
+    }
+    handleNames();
+  }, [])
+
   useEffect(() => {
     const handleAccounts = async() => {
       try {
@@ -24,7 +43,7 @@ export default function Accounts() {
     const formdata = new FormData(e.target);
     const accountData = Object.fromEntries(fromEntries.fromEntries())
 
-    const res = await axios.post
+    const res = await axios.post("http://localhost:8080/api/accounts", {withCredentials: true})
   }
 
   return (
@@ -37,10 +56,31 @@ export default function Accounts() {
           {addnew && (
             <>
             <h2 className="w-[80%] p-5 h-fit">Make a new account!</h2>
-            <form>
-              <div>
-                {/* <input type="text" name="name" value=""> */}
+            <form onSubmit={handleNewAccount}>
+              <div className="mb-4">
+                  <label className="block mb-2">Name:</label>
+                  <input type="text" name="name" placeholder={`${name}'s Credit Card`} className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
               </div>
+              
+              <div className="mb-4">
+                  <label className="block mb-2">Category:</label>
+                  <input type="text" name="category" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+              </div>
+              <div className="mb-4">
+                  <label className="block mb-2">Quantity:</label>
+                  <input type="number" name="quantity" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+              </div>
+              <div className="mb-4">
+                  <label className="block mb-2">Description:</label>
+                  <textarea name="description" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+              </div>
+              <div className="mb-4">
+                  <label className="block mb-2">Image URL:</label>
+                  <input type="text" name="image" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+              </div>
+              <button type="submit" className="bg-green-500 hover:bg-green-600 duration-300 text-white px-3 py-1 rounded mr-2">
+                  Submit
+              </button>
             </form>
             </>
 )}

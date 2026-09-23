@@ -11,7 +11,7 @@ function Home() {
   return (
     <>
     <div className="w-full h-full align-middle text-center">
-        <Link to="/"><h2>Ayo dis da home</h2></Link>
+        <h2>Ayo dis da home</h2>
     </div>
     </>
   )
@@ -40,7 +40,6 @@ function App() {
             <Link to="/accounts" className="relative group">Accounts<span className="absolute bottom-0 left-0 w-full h-0.5 scale-x-0 origin-center bg-(--accent) transition-transform duration-200 group-hover:scale-x-100"></span></Link>
             <Link to="/transaction" className="relative group">Transactions<span className="absolute bottom-0 left-0 w-full h-0.5 scale-x-0 origin-center bg-(--accent) transition-transform duration-200 group-hover:scale-x-100"></span></Link>
             <Link to="budgets" className="relative group">Budgets<span className="absolute bottom-0 left-0 w-full h-0.5 scale-x-0 origin-center bg-(--accent) transition-transform duration-200 group-hover:scale-x-100"></span></Link>
-
           </div>
       </div>
       {user ? (
@@ -69,6 +68,8 @@ function App() {
         <Route path="/signin" element={<Signin/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/accounts" element={<Accounts/>}/>
+        <Route path="/accounts:id" element={<Accounts/>}/>
+        
         <Route path="/budgets" element={<Budgets/>}/>
         <Route path="/transaction" element={<Transactions/>}/>
       </Routes>
