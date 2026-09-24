@@ -4,6 +4,8 @@ import { __unstable__loadDesignSystem } from 'tailwindcss';
 
 export function AccountDetails() {
   const [account, setAccount] = useState([])
+
+  
 }
 
 export default function Accounts() {
