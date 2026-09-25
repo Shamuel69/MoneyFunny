@@ -7,11 +7,46 @@ import Budgets from "./subpages/budgets"
 import Transactions from "./subpages/transactions"
 import axios from 'axios';
 
-function Home() {
+function Home( {user} ) {
+  const [overall, setOverall] = useState([])
+
+  useEffect(() => {
+    const handleOverall = async() => {
+      const res = await axios.get("http://localhost:8080/api/home/overall", {withCredentials:true})
+      const res2 = await axios.get("http://localhost:8080/api/home/details", {withCredentials:true})
+
+      console.log(res)
+
+      setOverall(res)
+    }
+    handleOverall()
+  }, [])
+
   return (
     <>
     <div className="w-full h-full align-middle text-center">
         <h2>Ayo dis da home</h2>
+
+    {user ? (
+      <>
+        <h2>Welcome, {user}!</h2>
+        <div className="flex flex-col p-2.5 md:p-5 gap-5">
+          Heres how things are looking for you right now:
+          <div className="grid grid-cols-3 gap-2 md:gap-5 border-b ">
+            <label>Total balence</label>
+            <label>Income</label>
+            <label>Spent</label>
+            <label>Transferred</label>
+            {i}
+      
+          </div>
+        </div>
+      </>
+
+    ):(
+      <p>Welcome! Please register or log in to start budgeting the right way!</p>
+      )}
+
     </div>
     </>
   )
@@ -43,10 +78,10 @@ function App() {
           </div>
       </div>
       {user ? (
-        <div className="text-2xl flex flex-row p-2.5  hover:bg-(--bg-secondary) relative" onClick={() => setActive((prev) => !prev)}>
-          <h2>{user.username}</h2>
+        <div className="text-2xl flex flex-row p-2.5  hover:bg-(--bg-secondary) " onClick={() => setActive((prev) => !prev)}>
+          <h2 className="first-letter:uppercase relative ">{user.username}</h2>
           {active ? (
-            <div className="w-[40%] md:w-fit h-fit absolute p-2 mx-auto bottom-0 bg-(--secondary)">
+            <div className="w-[40%] md:w-fit h-fit absolute p-2 mx-auto top-[55px] bg-(--secondary)">
               <button className="bg-(--error) border rounded w-35">Log Out</button>
             </div>
 

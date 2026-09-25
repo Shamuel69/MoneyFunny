@@ -57,8 +57,8 @@ export default function Transactions() {
             <h2 className="text-2xl p-2.5">Transaction history:</h2>
             <button className="bg-(--bg-secondary) hover:bg-(--bg-tertiary) p-2.5 rounded" onClick={() => setActive(prev => !prev)}>+ Add Transaction</button>
         </div>
-        <div className="p-5 w-[90%] md:w-[85%] mx-auto border-b-1 border-(--accent)">
-          {active && (
+        {active && (
+          <div className="p-5 w-[90%] md:w-[85%] mx-auto border-b-1 border-(--accent)">
             <>
             <h2 className="w-[80%] p-5 h-fit">Make a new transaction!</h2>
             <form onSubmit={handleNewTransactions}>
@@ -108,26 +108,30 @@ export default function Transactions() {
               </button>
             </form>
             </>
-)}
-        </div>
+          </div>
+        )}
         <div className="w-full md:w-[90%] lg:w-[80%] mx-auto">
-            <div  className="grid grid-cols-4 gap-4 mt-2 mb-2 ">
+            <div  className="grid grid-cols-5 gap-4 mt-2 mb-2 ">
               <p>Date</p>
               <p>Description</p>
               <p>Category</p>
+              <p>Type</p>
               <p>Amount</p>
             </div>          
           {transactions ? (transactions.map(transaction => (
 
-            <div id={transaction.id} className="grid grid-cols-4 gap-4 mt-3 mb-3 ">
+            <div id={transaction.id} className="grid grid-cols-5 gap-4 mt-3 mb-3 ">
               <label>
                 {transaction.date}
               </label>
-              <label>
+              <label className="first-letter:uppercase">
                 {transaction.description}
               </label>
-              <label>
+              <label className="first-letter:uppercase">
                 {getCatName(transaction.category_id) }
+              </label>
+              <label className="first-letter:uppercase">
+                {transaction.type}
               </label>
               <label>
                 ${transaction.amount}

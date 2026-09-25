@@ -1,20 +1,20 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react'
-
+import { useNavigate } from 'react-router-dom';
 export default function Budgets() {
     const [active, setActive] = useState(false)
     const [activeCat, setActiveCat] = useState(false)
     const [budgets, setBudgets] = useState([])
     const [category, setCategories] = useState([])
+    const navigate = useNavigate()
+
 
     const handleNewCategory = async(e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const credentials = Object.fromEntries(formData.entries());
         const res = await axios.post("http://localhost:8080/api/categories", credentials, {withCredentials: true})
-        console.log("AYYOOOOO ", res)
-        setActiveCat(prev => !prev)
-    
+        setActiveCat(false)
     }
 
     const handleNewBudget = async(e) => {
@@ -22,20 +22,25 @@ export default function Budgets() {
         const formData = new FormData(e.target);
         const credentials = Object.fromEntries(formData.entries());
         const res = await axios.post("http://localhost:8080/api/budgets", credentials, {withCredentials: true})
-        setActive(prev => !prev)
+        navigate(0)
+        setActive(false)
     }
+    
 
     useEffect(() => {
         const handleGetBudget = async() => {
             try {
                 const res = await axios.get("http://localhost:8080/api/budgets", {withCredentials:true})
                 const res2 = await axios.get("http://localhost:8080/api/categories", {withCredentials:true})
+                const res3 = await axios.get("http://localhost:8080/api/budgets/details", {withCredentials: true})
 
                 console.log(res.data)
                 console.log(res2.data)
+                console.log(res3.data)
 
-                setBudgets(res.data)
                 setCategories(res2.data)
+                setBudgets(res3.data)
+
             }catch {
                 console.error('Error fetching budget data:', error)
             }
@@ -99,14 +104,22 @@ export default function Budgets() {
             </form>
             </>
         </div>
-)}
+        )}
         {budgets && budgets.length>0 ? (
             <div className="">
             {budgets.map(budget => (
                 <div className="flex flex-col p-5 bg-(--bg-secondary) mt-5 w-full md:w-[90%] lg:w-[80%] mx-auto shadow-lg hover:shadow-xl border border-(--border) hover:border-(--accent-muted)">
-                    <h2 className="text-3xl font-semibold underline underline-offset-2.5 decoration-2 decoration-(--accent)">{budget.title}</h2>
-                    <h3>Set monthly budget: ${budget.amount}</h3>
-                    <h3>Remaining budget: ${budget.amount}</h3>
+                    <h2 className="text-3xl font-semibold mb-1.5 underline underline-offset-2.5 decoration-2 decoration-(--accent) first-letter:uppercase">{budget.title}</h2>
+                    <p>Category: {budget.cat_name}</p>
+                    <p>Budget: ${budget.amount / 100}</p>
+                    <p>Spent: ${budget.spent / 100}</p>
+                    <p>
+                        Remaining:
+                        ${(budget.amount - budget.spent) / 100}
+                    </p>
+                    <div className="w-full rounded-3xl bg-(--bg-tertiary) mt-2.5">
+                        <div className="bg-(--accent) h-2 rounded" style={{width: `${Math.min(((budget.spent / budget.amount) * 100), 100)}%`}}/>
+                    </div>
                 </div>
             ))}
             </div>
