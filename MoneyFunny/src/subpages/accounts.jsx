@@ -1,23 +1,23 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { __unstable__loadDesignSystem } from 'tailwindcss';
-
 export function AccountDetails() {
   const [account, setAccount] = useState([])
 
   
 }
 
-export default function Accounts() {
+export default function Accounts( ) {
   const [accounts, setAccounts] = useState(null)
   const [addnew, setAddNew] = useState(false)
   const [name, setName] = useState(null)
-
+  const nav = useNavigate()
   useEffect(() => {
     const handleNames = async() => {
       try{
-        const res = await axios.get("http://localhost:8080/api/auth/username", {withCredentials: true})
-        console.log(res.data)
+        const res = await axios.get("http://localhost:8080/api/auth/me", {withCredentials: true})
+        console.log("BLAM ", res.data)
         setName(res.data)
       }catch{
         console.error("No user signed in")
@@ -40,46 +40,45 @@ export default function Accounts() {
 
   }, [])
 
-  const handleNewAccount = async() => {
+  const handleNewAccount = async(e) => {
     e.preventDefault();
     const formdata = new FormData(e.target);
-    const accountData = Object.fromEntries(fromEntries.fromEntries())
+    const accountData = Object.fromEntries(formdata.entries())
 
-    const res = await axios.post("http://localhost:8080/api/accounts", {withCredentials: true})
+    const res = await axios.post("http://localhost:8080/api/accounts", accountData, {withCredentials: true})
+    nav(0)
   }
 
   return (
     <div className="w-full min-h-dvh overflow-y-scroll">
-        <div className="p-5 w-[90%] md:w-[85%] mx-auto align-center justify-between border-b-1 border-(--accent) flex flex-row">
-            <h2 className="text-2xl lg:text-4xl">Your accounts:</h2>
+          <div className="p-5 w-full md:w-[90%] lg:w-[85%] flex flex-row justify-between align-middle mx-auto border-b-1 border-(--accent)">
+            <h2 className="text-2xl p-2.5">Your accounts:</h2>
             <button onClick={() => setAddNew(prev => !prev)} className="p-2.5 text-lg bg-(--bg-tertiary) rounded-lg">Add new account!</button>
         </div>
-        <div className="flex flex-col w-full md:w-[80%] mx-auto mt-5">
+        <div className="flex flex-col p-5 w-full gap-5 md:w-[80%] mx-auto mt-5">
           {addnew && (
             <>
-            <h2 className="w-[80%] p-5 h-fit">Make a new account!</h2>
+            <h2 className="w-[80%] underline underline-offset-5  text-3xl h-fit">Make a new account!</h2>
             <form onSubmit={handleNewAccount}>
               <div className="mb-4">
                   <label className="block mb-2">Name:</label>
-                  <input type="text" name="name" placeholder={`${name}'s Credit Card`} className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+                  <input type="text" name="name" placeholder={`${name.username}'s Credit Card`} className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
               </div>
               
               <div className="mb-4">
-                  <label className="block mb-2">Category:</label>
-                  <input type="text" name="category" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+                <label className="block mb-2">Type:</label>
+                <select type="text" name="type" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required >
+                  <option>Checking</option>
+                  <option>Saving</option>
+                  <option>Money Market</option>
+                  <option>Certificate of Deposite</option>
+                </select>
               </div>
               <div className="mb-4">
-                  <label className="block mb-2">Quantity:</label>
-                  <input type="number" name="quantity" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
+                  <label className="block mb-2">Starting balance:</label>
+                  <input type="number" name="starting_balance" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
               </div>
-              <div className="mb-4">
-                  <label className="block mb-2">Description:</label>
-                  <textarea name="description" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
-              </div>
-              <div className="mb-4">
-                  <label className="block mb-2">Image URL:</label>
-                  <input type="text" name="image" className="w-full md:w-[30%] p-2 border rounded focus:outline-0  " required />
-              </div>
+              
               <button type="submit" className="bg-green-500 hover:bg-green-600 duration-300 text-white px-3 py-1 rounded mr-2">
                   Submit
               </button>
@@ -91,8 +90,9 @@ export default function Accounts() {
               <div className="p-5 gap-4 md:w-[70%] flex flex-col rounded bg-(--bg-secondary) border border-(--bg-primary) shadow-lg hover:shadow-xl hover:border-(--accent-muted) transition-all duration-150">
                 <label className="text-3xl font-semibold underline underline-offset-2.5 decoration-2 decoration-(--accent)">{account.name}</label>
                 <label className="text-xl">{account.type}</label>
+                  <label className="text-xl">Starting Balance: <span className="font-semibold">${account.starting_balance}</span></label>
                 <div className="flex flex-row justify-between">
-                  <label className="text-2xl">${account.starting_balance}</label>
+                  <h2 className="text-2xl">Balance: <span className="font-semibold">${(account.balance / 100).toFixed(2)}</span></h2>
                   <label className="text-xl flex ">{account.id}</label>
                 </div>
 

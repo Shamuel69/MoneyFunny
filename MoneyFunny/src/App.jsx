@@ -13,36 +13,43 @@ function Home( {user} ) {
   useEffect(() => {
     const handleOverall = async() => {
       const res = await axios.get("http://localhost:8080/api/home/overall", {withCredentials:true})
-      const res2 = await axios.get("http://localhost:8080/api/home/details", {withCredentials:true})
+      // const res2 = await axios.get("http://localhost:8080/api/home/details", {withCredentials:true})
 
-      console.log(res)
+      console.log(res.data)
 
-      setOverall(res)
+      setOverall(res.data)
     }
     handleOverall()
   }, [])
 
+  const expense = overall.find(item => item.type === "expense")?.amount || 0
+  const income = overall.find(item => item.type === "income")?.amount || 0
+  const transfer = overall.find(item => item.type === "transfer")?.amount || 0
+  
   return (
     <>
     <div className="w-full h-full align-middle text-center">
         <h2>Ayo dis da home</h2>
 
     {user ? (
+
       <>
-        <h2>Welcome, {user}!</h2>
-        <div className="flex flex-col p-2.5 md:p-5 gap-5">
+        <h2>Welcome, {user.username}!</h2>
+        <div className="flex flex-col p-2.5 md:p-5 gap-2.5">
           Heres how things are looking for you right now:
-          <div className="grid grid-cols-3 gap-2 md:gap-5 border-b ">
+          <div className="grid grid-cols-4 gap-2 md:gap-5 border-b ">
             <label>Total balence</label>
             <label>Income</label>
             <label>Spent</label>
             <label>Transferred</label>
-            {i}
-      
+            <span>{(income-expense / 100).toFixed(2)}</span>
+            <span>{(income / 100).toFixed(2)}</span>
+            <span>{(expense / 100).toFixed(2)}</span>
+            <span>{(transfer / 100).toFixed(2)}</span>
+          
           </div>
         </div>
       </>
-
     ):(
       <p>Welcome! Please register or log in to start budgeting the right way!</p>
       )}
@@ -99,7 +106,7 @@ function App() {
     </section>
     <section id="display-area">
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home user={user}/>}/>
         <Route path="/signin" element={<Signin/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/accounts" element={<Accounts/>}/>

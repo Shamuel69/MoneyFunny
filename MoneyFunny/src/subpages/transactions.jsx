@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export default function Transactions() {
   const [transactions, setTransactions] = useState([])
   const [active, setActive] = useState(false)
   const [accounts, setAccounts] = useState([])
   const [categories, setCategories] = useState([])
-
+  const nav = useNavigate()
   const handleNewTransactions = async(e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -15,7 +16,7 @@ export default function Transactions() {
       credentials,
       {withCredentials: true}
     )
-
+    nav(0)
     // try{
     // }catch{
     // }
@@ -110,8 +111,8 @@ export default function Transactions() {
             </>
           </div>
         )}
-        <div className="w-full md:w-[90%] lg:w-[80%] mx-auto">
-            <div  className="grid grid-cols-5 gap-4 mt-2 mb-2 ">
+        <div className="w-[90%] md:w-[90%]  lg:w-[80%] mx-auto ">
+            <div  className="grid grid-cols-5 gap-4 font-semibold mt-2 mb-5 pb-2.5 border-b">
               <p>Date</p>
               <p>Description</p>
               <p>Category</p>
@@ -120,7 +121,7 @@ export default function Transactions() {
             </div>          
           {transactions ? (transactions.map(transaction => (
 
-            <div id={transaction.id} className="grid grid-cols-5 gap-4 mt-3 mb-3 ">
+            <div id={transaction.id} className="grid grid-cols-5  gap-4 mt-3 mb-3 ">
               <label>
                 {transaction.date}
               </label>
