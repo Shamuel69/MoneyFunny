@@ -20,6 +20,7 @@ export function Signup() {
                 credentials,
             {withCredentials: true});
             nav("/")
+            nav(0)
 
         }
     }
@@ -34,7 +35,6 @@ export function Signup() {
                     <p>{error}</p>
                 </div>
             )}
-            
             <form onSubmit={handleSignUp} className="mx-auto w-[85%] p-2.5 flex flex-col gap-8">
                 <div className="flex flex-col gap-3 ">
                     <label for="username">Username: </label>
@@ -76,6 +76,7 @@ export default function Signin() {
                 credentials, 
             {withCredentials: true});
             nav("/");
+            nav(0)
         }catch{
             setError("Passwords either are not correct or do not match, please try again.")
             

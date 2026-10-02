@@ -90,7 +90,7 @@ export default function Accounts( ) {
               <div className="p-5 gap-4 md:w-[70%] flex flex-col rounded bg-(--bg-secondary) border border-(--bg-primary) shadow-lg hover:shadow-xl hover:border-(--accent-muted) transition-all duration-150">
                 <label className="text-3xl font-semibold underline underline-offset-2.5 decoration-2 decoration-(--accent)">{account.name}</label>
                 <label className="text-xl">{account.type}</label>
-                  <label className="text-xl">Starting Balance: <span className="font-semibold">${account.starting_balance}</span></label>
+                  <label className="text-xl">Starting Balance: <span className="font-semibold">${(account.starting_balance / 100).toFixed(2)}</span></label>
                 <div className="flex flex-row justify-between">
                   <h2 className="text-2xl">Balance: <span className="font-semibold">${(account.balance / 100).toFixed(2)}</span></h2>
                   <label className="text-xl flex ">{account.id}</label>
@@ -99,7 +99,9 @@ export default function Accounts( ) {
               </div>
             ))
           ):(
-            <p>loading...</p>
+            <div className="">
+                <p>You have no accounts set up. Please create a new account to get started!</p>
+            </div>
           )}
         </div>
     </div>

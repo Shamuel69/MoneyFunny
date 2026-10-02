@@ -30,11 +30,9 @@ export default function Budgets() {
     useEffect(() => {
         const handleGetBudget = async() => {
             try {
-                const res = await axios.get("http://localhost:8080/api/budgets", {withCredentials:true})
                 const res2 = await axios.get("http://localhost:8080/api/categories", {withCredentials:true})
                 const res3 = await axios.get("http://localhost:8080/api/budgets/details", {withCredentials: true})
 
-                console.log(res.data)
                 console.log(res2.data)
                 console.log(res3.data)
 
@@ -124,8 +122,8 @@ export default function Budgets() {
             ))}
             </div>
         ):(
-            <div className="bg-(--bg-secondary) w-[80%] mx-auto border border-(--border) hover:border-(--accent-muted))">
-                <h2 className="bg-amber-800">my name is i dunno where i at</h2>
+            <div className=" w-[80%] mx-auto p-10 ">
+                <p>You have no budgets set up. Please create a new budget to get started!</p>
             </div>
         )}
         </div>
