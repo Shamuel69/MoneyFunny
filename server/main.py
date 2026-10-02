@@ -22,10 +22,11 @@ def username():
 @app.route("/api/auth/me", methods=["GET"])
 def me():
     user_id = session.get("user_id")
-    username = DataManager().QueryName(user_id)
-
     if not user_id:
         return {"error": "this guy aint signed in"}, 401
+    
+    username = DataManager().QueryName(user_id)
+
 
     return {"user_id": user_id, "username": username["username"]}
 
@@ -59,6 +60,8 @@ def signup():
 
     session["user_id"] = user["id"]
 
+    DataManager().initialize_categories(user["id"])
+    
     return {"message": "Signed up!"}
 
 @app.route("/api/totalbalance", methods=["GET"])
@@ -123,10 +126,18 @@ def transaction_get():
     
     return transaction
 
+
+
+
 @app.route("/api/categories", methods=["GET"])
 def categories_get():
     user_id = session.get("user_id")
+    
+    if not user_id:
+        return {"error": "Not signed in"}, 401
+    
     categories = DataManager().db.select("categories", {"user_id": user_id})
+
     return categories
 
 @app.route("/api/categories", methods=["POST"])
@@ -153,7 +164,6 @@ def budgets_send():
         "category_id": data["category_id"],
         "title": data["title"],
         "amount": data["amount"],
-        "description": data["description"],
     }
 
     DataManager().db.insert("budgets", budget)

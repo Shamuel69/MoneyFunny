@@ -203,6 +203,14 @@ budgets_command = """
 class DataManager():
     def __init__(self):
         self.db = dataPlayer("server/MoneyFunny.db")
+        self.default_categories = [
+                "Food",
+                "Transportation",
+                "Entertainment",
+                "Utilities",
+                "Bills",
+                "Other"
+            ]
 
     def Signin(self, username, password):
         users = self.db.select("users", {"username": username})
@@ -257,8 +265,9 @@ class DataManager():
 
         if not "name" in data.keys():
             data = data 
-        print(f"blank {self.db.select("accounts", )}")
+        
         account = self.db.insert("accounts", data)
+
 
     def BudgetDetails(self, user_id, budget_id):
         query = """
@@ -389,6 +398,15 @@ class DataManager():
                 
             return 
 
+    
+    
+    def initialize_categories(self, user_id):
+        categories = self.db.select("categories", {"user_id": user_id})
+        if len(categories) == 0:
+            for cat in self.default_categories:
+                self.db.insert("categories", {"user_id": user_id, "cat_name": cat})
+            categories = self.db.select("categories", {"user_id": user_id})
+
     def initialize_database(self):
         db = dataPlayer("server/MoneyFunny.db")
 
@@ -397,6 +415,7 @@ class DataManager():
             db.create_table(users_command)
             db.create_table(accounts_command)
             db.create_table(categories_command)
+            
             db.create_table(transactions_command)
             db.create_table(budgets_command)
             print("Database initialized successfully.")
