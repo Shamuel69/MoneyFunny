@@ -1,8 +1,8 @@
 # MoneyFunny
 
-A full-stack personal finance manager that was built to assist with tracking expenses and manage money in a reliable way.
+A full-stack personal finance manager built to help users track expenses and manage their money reliably.
 
-MoneyFunny lets users create and monitor financial accounts. Allowing users to track their spending habbits, track transactions, and create spending budgets. Displaying and overview of their finances through a responsive front page.
+MoneyFunny lets users create and monitor financial accounts, track their spending habits and transactions, and create spending budgets. Users can also view an overview of their finances through a responsive dashboard.
 
 ## Features
 
@@ -49,14 +49,95 @@ For example:
 
 ```text
 $14.82 → 1482
+```
 
 ## How to install
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Shamuel69/MoneyFunny.git
-cd MoneyFunny
+```
 
-### 2. Install React dependencies
+### 2. Set up the python backend
 
+Navigate to the server directory in the terminal and use type this:
+```cd server```
 
+Create a virtual environment:
+```python -m venv venv```
+
+Activate it on Windows:
+```venv\Scripts\activate```
+
+Install the required Python packages:
+```pip install -r requirements.txt```
+
+Start the Flask server:
+
+```bash
+python server/main.py
+```
+
+### 3. Set up the React frontend
+
+Open a second terminal and navigate to the frontend:
+
+`cd MoneyFunny`
+
+Open a second terminal and install the frontend dependencies:
+
+`npm install`
+
+Start the development server:
+
+`npm run dev`
+
+Vite will show you the local address to open in your browser.
+
+## What I have learned
+
+MoneyFunny was built as a project to practice working with real-world data rather than simply building another frontend application.
+
+Some of the main concepts I worked with include:
+
+- Designing relational database schemas
+- SQL queries and foreign keys
+- CRUD operations with SQLite
+- Building REST APIs with Flask
+- Session-based authentication
+- Password hashing
+- Connecting React to a Python backend
+- Managing frontend application state
+- Calculating financial data from database records
+- Responsive UI design
+- Representing monetary values safely using integer cents
+
+## Database
+
+MoneyFunny uses SQLite for local data storage.
+
+The database contains tables for:
+
+- Users
+- Accounts
+- Categories
+- Transactions
+- Budgets
+
+Each user's financial data is associated with their user account.
+
+Default spending categories are created when a new user signs up.
+
+## Future Improvements
+
+Possible improvements include:
+
+- Recurring transactions
+- Transfer support between accounts
+- More detailed financial reports
+- Charts and spending trends
+- Improved budget tracking
+- Database migrations
+- Deployment with a hosted database
+  
