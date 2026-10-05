@@ -50,3 +50,13 @@ For example:
 ```text
 $14.82 → 1482
 
+## How to install
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Shamuel69/MoneyFunny.git
+cd MoneyFunny
+
+### 2. Install React dependencies
+
+
