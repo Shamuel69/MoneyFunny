@@ -243,5 +243,5 @@ if __name__ == "__main__":
     
 
     print("Starting server...")
-    DataManager().initialize_database()
+    print(DataManager().db.select("users"))
     app.run(host="0.0.0.0", port=8080, debug=True)

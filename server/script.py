@@ -96,6 +96,7 @@ class dataPlayer():
         print("Results: ", results)
         results = [dict(row) for row in results]
         return results
+    
     def update(self, table:str, where:dict, data:dict):
         """
         Hunts down the specific data you need and updates it right then and there with the conditions you set:\n\n

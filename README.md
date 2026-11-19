@@ -57,6 +57,7 @@ $14.82 → 1482
 
 ```bash
 git clone https://github.com/Shamuel69/MoneyFunny.git
+cd MoneyFunny
 ```
 
 ### 2. Set up the python backend
@@ -83,7 +84,7 @@ python server/main.py
 
 Open a second terminal and navigate to the frontend:
 
-`cd MoneyFunny`
+`cd client`
 
 Open a second terminal and install the frontend dependencies:
 
