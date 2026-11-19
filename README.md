@@ -77,7 +77,7 @@ Install the required Python packages:
 Start the Flask server:
 
 ```bash
-python server/main.py
+python main.py
 ```
 
 ### 3. Set up the React frontend
