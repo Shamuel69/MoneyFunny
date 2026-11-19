@@ -203,7 +203,7 @@ budgets_command = """
 
 class DataManager():
     def __init__(self):
-        self.db = dataPlayer("server/MoneyFunny.db")
+        self.db = dataPlayer("MoneyFunny.db")
         self.default_categories = [
                 "Food",
                 "Transportation",
